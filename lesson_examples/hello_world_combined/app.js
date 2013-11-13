@@ -9,16 +9,20 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
 var mongoclient = new MongoClient(new Server("localhost", 27017));
-var db = mongoclient.db('course');
+var db = mongoclient.db('m101');
 
 app.get('/', function(req, res){
 
     // Find one document in our collection
-    db.collection('hello_combined').findOne({}, function(err, doc) {
+    db.collection('hw1_1').findOne({"answer": "Hello from MongoDB!"}, function(err, doc) {
 
         if(err) throw err;
 
-        res.render('hello', doc);
+        res.format({
+            'application/json': function(){
+                res.send(doc);
+            }
+        });
     });
 });
 
